@@ -93,7 +93,7 @@ python3 -m bakeoff replay --lane lane-3  # See Terra's draft history
 python3 -m bakeoff replay --demo         # Paced walkthrough, about 48 seconds
 ```
 
-[Read the same walkthrough as text](docs/DEMO_TRANSCRIPT.md).
+[Read the short demo transcript](docs/DEMO_TRANSCRIPT.md).
 
 ## Run the checks yourself
 

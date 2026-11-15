@@ -1,7 +1,7 @@
 # Draft posts—not published
 
-Replace `[public repository link]` only after the repository and evidence are
-accessible to visitors. These drafts describe one completed experiment.
+The repository and evidence are public. These drafts focus on the money-converter
+experiment. The links are ready to use; the posts have not been published.
 
 ## Developer-focused post
 
@@ -20,7 +20,7 @@ accessible to visitors. These drafts describe one completed experiment.
 >
 > Can you find a valid input the kept answer handles incorrectly?
 >
-> [public repository link]
+> [Explore the project](https://github.com/narencc/parallel-coding-agents)
 
 ## Beginner-focused post
 
@@ -34,7 +34,7 @@ accessible to visitors. These drafts describe one completed experiment.
 > You can inspect the completed experiment for free before deciding whether to run
 > anything yourself.
 >
-> [public repository link]
+> [Explore the project](https://github.com/narencc/parallel-coding-agents)
 
 ## Private feedback invitation
 
@@ -45,7 +45,7 @@ Use this only when you choose to contact someone; it has not been sent.
 > I would also like to know whether you can find the evidence and the reason for
 > the final choice. You do not need an API key or payment to inspect it.
 >
-> [public repository link]
+> [Explore the project](https://github.com/narencc/parallel-coding-agents)
 
 ## Optional star invitation
 
