@@ -1,0 +1,279 @@
+{
+  "schema_version": 1,
+  "recorded": true,
+  "run_id": "race-20261115T155112Z-rdly1111",
+  "date_utc": "2026-11-15",
+  "task": "money-converter",
+  "baseline_commit": "fff0eff1919fbac9c75be9abcbd6c3c021707e8d",
+  "seconds": 22.340325749999465,
+  "peak_inflight_requests": 5,
+  "total_requests": 13,
+  "input_tokens": 24537,
+  "output_tokens": 6219,
+  "estimated_usd": "0.1153683",
+  "rates_checked": "2026-11-15",
+  "cost_basis": "Recorded standard uncached input/output rates; not a provider bill or future-price quote",
+  "original_cases_sha256": "61fe1cb954cf3d9c1cb1733b37e28067a3219579292d929fd020a22213645016",
+  "review_cases_sha256": "49948b8ab78f29572df88b6bd3338f3cef4e33dd7336527ccd5cf09e666e76af",
+  "selected_lane": "lane-1",
+  "selection_reason": "The top three tied on observed checks; Astra was chosen for a clear single-function flow. This is a review judgment, not a model ranking.",
+  "lanes": [
+    {
+      "lane": "lane-1",
+      "model": "gpt-6-astra",
+      "commit": "46288e9267df9b6ab71df202384a48393c2e6423",
+      "source_path": "lanes/lane-1/money.py",
+      "source_sha256": "d175736e9fbc7c7e4910023325ee50aec8202dfecb0985890e0b43c1f124ea8d",
+      "status": "submitted_practice_passed",
+      "rounds": 2,
+      "drafts": [
+        {
+          "number": 1,
+          "round": 1,
+          "path": "lanes/lane-1/draft-01.py",
+          "sha256": "d175736e9fbc7c7e4910023325ee50aec8202dfecb0985890e0b43c1f124ea8d",
+          "explanation": "Implemented the full grammar, exclusive negative forms, strict ASCII digits and markers, and exact suffix scaling. Integer chunks preserve precision even for inputs beyond Python's integer-string conversion limit.",
+          "practice_passed": 4,
+          "practice_total": 4
+        }
+      ],
+      "input_tokens": 3004,
+      "output_tokens": 810,
+      "input_usd_per_million": "10",
+      "output_usd_per_million": "50",
+      "estimated_usd": "0.07054",
+      "requests": [
+        {
+          "round": 1,
+          "started_seconds": 0.39222241700008453,
+          "ended_seconds": 15.442363082999691
+        },
+        {
+          "round": 2,
+          "started_seconds": 15.591071041999385,
+          "ended_seconds": 20.09150150000005
+        }
+      ],
+      "original_results": "lanes/lane-1/original-results.json",
+      "review_results": "lanes/lane-1/review-results.json",
+      "original_passed": 44,
+      "original_total": 44,
+      "review_passed": 22,
+      "review_total": 22
+    },
+    {
+      "lane": "lane-2",
+      "model": "gpt-6.1-sol",
+      "commit": "5c4229f231b3cb0e6fcccf322c685291097c8468",
+      "source_path": "lanes/lane-2/money.py",
+      "source_sha256": "843b6b3cb8246fb93bae6d9cf65dc45e7d5dfa6ad9495192cd5f280f551f3a7b",
+      "status": "submitted_practice_passed",
+      "rounds": 2,
+      "drafts": [
+        {
+          "number": 1,
+          "round": 1,
+          "path": "lanes/lane-2/draft-01.py",
+          "sha256": "843b6b3cb8246fb93bae6d9cf65dc45e7d5dfa6ad9495192cd5f280f551f3a7b",
+          "explanation": "Implemented strict syntax validation, exclusive negative forms, exact suffix scaling and fractional-paise rejection. Chunked integer conversion preserves precision even for very long inputs.",
+          "practice_passed": 4,
+          "practice_total": 4
+        }
+      ],
+      "input_tokens": 3038,
+      "output_tokens": 860,
+      "input_usd_per_million": "2",
+      "output_usd_per_million": "10",
+      "estimated_usd": "0.014676",
+      "requests": [
+        {
+          "round": 1,
+          "started_seconds": 0.3794430829993871,
+          "ended_seconds": 15.010536624999986
+        },
+        {
+          "round": 2,
+          "started_seconds": 15.157635208000102,
+          "ended_seconds": 18.093949624999368
+        }
+      ],
+      "original_results": "lanes/lane-2/original-results.json",
+      "review_results": "lanes/lane-2/review-results.json",
+      "original_passed": 44,
+      "original_total": 44,
+      "review_passed": 22,
+      "review_total": 22
+    },
+    {
+      "lane": "lane-3",
+      "model": "gpt-6.1-terra",
+      "commit": "63b5a4b83d841d608a05f7480a61d55cf8729a51",
+      "source_path": "lanes/lane-3/money.py",
+      "source_sha256": "9d3a762e1776ab5c16c82e6d05d8f1639bca0919f5c5ff734be50b2a89a795ca",
+      "status": "submitted_practice_passed",
+      "rounds": 3,
+      "drafts": [
+        {
+          "number": 1,
+          "round": 1,
+          "path": "lanes/lane-3/draft-01.py",
+          "sha256": "db966ba29e179f93cd8f7bc01c1ddafb06c838ebfdcf49a48151c701e16c679a",
+          "explanation": "Implement strict syntax validation and exact integer paise conversion, including arbitrarily long integer parts.",
+          "practice_passed": 0,
+          "practice_total": 4
+        },
+        {
+          "number": 2,
+          "round": 2,
+          "path": "lanes/lane-3/draft-02.py",
+          "sha256": "9d3a762e1776ab5c16c82e6d05d8f1639bca0919f5c5ff734be50b2a89a795ca",
+          "explanation": "Fix the loop syntax and accept Unicode whitespace while keeping currency letters ASCII case-insensitive.",
+          "practice_passed": 4,
+          "practice_total": 4
+        }
+      ],
+      "input_tokens": 6333,
+      "output_tokens": 1461,
+      "input_usd_per_million": "1",
+      "output_usd_per_million": "5",
+      "estimated_usd": "0.013638",
+      "requests": [
+        {
+          "round": 1,
+          "started_seconds": 0.32931579199976113,
+          "ended_seconds": 10.662990875000105
+        },
+        {
+          "round": 2,
+          "started_seconds": 10.86902016699969,
+          "ended_seconds": 19.663582457999837
+        },
+        {
+          "round": 3,
+          "started_seconds": 19.83130408299985,
+          "ended_seconds": 21.854665957999714
+        }
+      ],
+      "original_results": "lanes/lane-3/original-results.json",
+      "review_results": "lanes/lane-3/review-results.json",
+      "original_passed": 44,
+      "original_total": 44,
+      "review_passed": 22,
+      "review_total": 22
+    },
+    {
+      "lane": "lane-4",
+      "model": "gpt-6-luna",
+      "commit": "cca9c7a82ecba91e1ac6ddbc36da50c3074abf2a",
+      "source_path": "lanes/lane-4/money.py",
+      "source_sha256": "a548c27e64869e787556ffa290235437bec578f3da0107e8652b25a773a7fb5a",
+      "status": "submitted_practice_passed",
+      "rounds": 4,
+      "drafts": [
+        {
+          "number": 1,
+          "round": 1,
+          "path": "lanes/lane-4/draft-01.py",
+          "sha256": "b098fa821ddc2f498a20620e829a863810dcabb1d0642bbe700e806b02003acb",
+          "explanation": "Implemented strict full-string parsing, integer-only paise scaling, suffix multipliers, and negative syntax with validation.",
+          "practice_passed": 4,
+          "practice_total": 4
+        },
+        {
+          "number": 2,
+          "round": 2,
+          "path": "lanes/lane-4/draft-02.py",
+          "sha256": "d7a7cf1894753bc7384fce26fdf8b324251159a7c002ae9b57478fb8d1b8589a",
+          "explanation": "Reviewed suffix spacing against the specification and updated the full-match pattern to accept optional whitespace before suffixes; exact arithmetic and comma checks remain unchanged.",
+          "practice_passed": 4,
+          "practice_total": 4
+        },
+        {
+          "number": 3,
+          "round": 3,
+          "path": "lanes/lane-4/draft-03.py",
+          "sha256": "a548c27e64869e787556ffa290235437bec578f3da0107e8652b25a773a7fb5a",
+          "explanation": "Restricted case-insensitive marker and suffix matching to ASCII so Unicode lookalike letters cannot be accepted as the specified tokens.",
+          "practice_passed": 4,
+          "practice_total": 4
+        }
+      ],
+      "input_tokens": 9178,
+      "output_tokens": 2237,
+      "input_usd_per_million": "0.1",
+      "output_usd_per_million": "0.5",
+      "estimated_usd": "0.0020363",
+      "requests": [
+        {
+          "round": 1,
+          "started_seconds": 0.3914428329999282,
+          "ended_seconds": 6.38400399999955
+        },
+        {
+          "round": 2,
+          "started_seconds": 6.514046457999939,
+          "ended_seconds": 13.561933416999636
+        },
+        {
+          "round": 3,
+          "started_seconds": 13.690344291999281,
+          "ended_seconds": 20.23045991699928
+        },
+        {
+          "round": 4,
+          "started_seconds": 20.353585249999924,
+          "ended_seconds": 22.1814167499997
+        }
+      ],
+      "original_results": "lanes/lane-4/original-results.json",
+      "review_results": "lanes/lane-4/review-results.json",
+      "original_passed": 44,
+      "original_total": 44,
+      "review_passed": 17,
+      "review_total": 22
+    },
+    {
+      "lane": "lane-5",
+      "model": "gpt-6-sol",
+      "commit": "68a661e9795015df2afcdf8388e662fb9e5195ba",
+      "source_path": "lanes/lane-5/money.py",
+      "source_sha256": "65ebc0f1990abd32201729d77430a0dbf616773eb6831fb908d4a98016b02fa1",
+      "status": "submitted_practice_passed",
+      "rounds": 2,
+      "drafts": [
+        {
+          "number": 1,
+          "round": 1,
+          "path": "lanes/lane-5/draft-01.py",
+          "sha256": "65ebc0f1990abd32201729d77430a0dbf616773eb6831fb908d4a98016b02fa1",
+          "explanation": "Parse the entire input with an ASCII-aware pattern and calculate paise using integer arithmetic, rejecting invalid syntax and fractional paise.",
+          "practice_passed": 4,
+          "practice_total": 4
+        }
+      ],
+      "input_tokens": 2984,
+      "output_tokens": 851,
+      "input_usd_per_million": "2",
+      "output_usd_per_million": "10",
+      "estimated_usd": "0.014478",
+      "requests": [
+        {
+          "round": 1,
+          "started_seconds": 0.34389829199972155,
+          "ended_seconds": 8.466194249999717
+        },
+        {
+          "round": 2,
+          "started_seconds": 8.619181207999645,
+          "ended_seconds": 10.830855374999373
+        }
+      ],
+      "original_results": "lanes/lane-5/original-results.json",
+      "review_results": "lanes/lane-5/review-results.json",
+      "original_passed": 44,
+      "original_total": 44,
+      "review_passed": 17,
+      "review_total": 22
+    }
+  ]
+}

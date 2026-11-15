@@ -1,0 +1,750 @@
+[
+  {
+    "id": "indian-grouping",
+    "suite": "hidden",
+    "input": "₹1,25,000.50",
+    "expected": {
+      "kind": "int",
+      "value": 12500050
+    },
+    "actual": {
+      "kind": "int",
+      "value": 12500050
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.033050624999305
+  },
+  {
+    "id": "exact-paise",
+    "suite": "hidden",
+    "input": "0.29",
+    "expected": {
+      "kind": "int",
+      "value": 29
+    },
+    "actual": {
+      "kind": "int",
+      "value": 29
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03233737499976996
+  },
+  {
+    "id": "lakh",
+    "suite": "hidden",
+    "input": "1.2 lakh",
+    "expected": {
+      "kind": "int",
+      "value": 12000000
+    },
+    "actual": {
+      "kind": "int",
+      "value": 12000000
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03309058299964818
+  },
+  {
+    "id": "crore",
+    "suite": "hidden",
+    "input": "3 crore",
+    "expected": {
+      "kind": "int",
+      "value": 3000000000
+    },
+    "actual": {
+      "kind": "int",
+      "value": 3000000000
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03174145800039696
+  },
+  {
+    "id": "suffix-without-space",
+    "suite": "hidden",
+    "input": "2.5Cr",
+    "expected": {
+      "kind": "int",
+      "value": 2500000000
+    },
+    "actual": {
+      "kind": "int",
+      "value": 2500000000
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.031812209001145675
+  },
+  {
+    "id": "suffix-precision",
+    "suite": "hidden",
+    "input": "1.2345 lakh",
+    "expected": {
+      "kind": "int",
+      "value": 12345000
+    },
+    "actual": {
+      "kind": "int",
+      "value": 12345000
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.0321620000013354
+  },
+  {
+    "id": "thousand",
+    "suite": "hidden",
+    "input": "Rs 5 k",
+    "expected": {
+      "kind": "int",
+      "value": 500000
+    },
+    "actual": {
+      "kind": "int",
+      "value": 500000
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03244862500105228
+  },
+  {
+    "id": "irregular-grouping",
+    "suite": "hidden",
+    "input": "1,2,3",
+    "expected": {
+      "kind": "int",
+      "value": 12300
+    },
+    "actual": {
+      "kind": "int",
+      "value": 12300
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03393095799947332
+  },
+  {
+    "id": "parentheses",
+    "suite": "hidden",
+    "input": "(₹200)",
+    "expected": {
+      "kind": "int",
+      "value": -20000
+    },
+    "actual": {
+      "kind": "int",
+      "value": -20000
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03214645799926075
+  },
+  {
+    "id": "minus",
+    "suite": "hidden",
+    "input": "-Rs 15",
+    "expected": {
+      "kind": "int",
+      "value": -1500
+    },
+    "actual": {
+      "kind": "int",
+      "value": -1500
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03190549999999348
+  },
+  {
+    "id": "case-and-whitespace",
+    "suite": "hidden",
+    "input": "  inr 7  ",
+    "expected": {
+      "kind": "int",
+      "value": 700
+    },
+    "actual": {
+      "kind": "int",
+      "value": 700
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03486883299956389
+  },
+  {
+    "id": "marker-without-space",
+    "suite": "hidden",
+    "input": "Rs.500",
+    "expected": {
+      "kind": "int",
+      "value": 50000
+    },
+    "actual": {
+      "kind": "int",
+      "value": 50000
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03351699999984703
+  },
+  {
+    "id": "small-exact-suffix",
+    "suite": "hidden",
+    "input": "0.000001 lakh",
+    "expected": {
+      "kind": "int",
+      "value": 10
+    },
+    "actual": {
+      "kind": "int",
+      "value": 10
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.030766415999096353
+  },
+  {
+    "id": "negative-zero",
+    "suite": "hidden",
+    "input": "-0.00",
+    "expected": {
+      "kind": "int",
+      "value": 0
+    },
+    "actual": {
+      "kind": "int",
+      "value": 0
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.030326209000122617
+  },
+  {
+    "id": "plural-lakhs",
+    "suite": "hidden",
+    "input": "2 LAKHS",
+    "expected": {
+      "kind": "int",
+      "value": 20000000
+    },
+    "actual": {
+      "kind": "int",
+      "value": 20000000
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03152795800087915
+  },
+  {
+    "id": "plural-crores",
+    "suite": "hidden",
+    "input": "1 crores",
+    "expected": {
+      "kind": "int",
+      "value": 1000000000
+    },
+    "actual": {
+      "kind": "int",
+      "value": 1000000000
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03096779199950106
+  },
+  {
+    "id": "parentheses-whitespace",
+    "suite": "hidden",
+    "input": "( INR 1.50 )",
+    "expected": {
+      "kind": "int",
+      "value": -150
+    },
+    "actual": {
+      "kind": "int",
+      "value": -150
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.030634041999292094
+  },
+  {
+    "id": "short-lakh",
+    "suite": "hidden",
+    "input": "1l",
+    "expected": {
+      "kind": "int",
+      "value": 10000000
+    },
+    "actual": {
+      "kind": "int",
+      "value": 10000000
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03049891699993168
+  },
+  {
+    "id": "large-exact-amount",
+    "suite": "hidden",
+    "input": "1000000000000000000000000000.29",
+    "expected": {
+      "kind": "int",
+      "value": 100000000000000000000000000029
+    },
+    "actual": {
+      "kind": "int",
+      "value": 100000000000000000000000000029
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.030471374999251566
+  },
+  {
+    "id": "too-many-decimals",
+    "suite": "hidden",
+    "input": "₹12.345",
+    "expected": {
+      "kind": "ValueError"
+    },
+    "actual": {
+      "kind": "ValueError"
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03065641700050037
+  },
+  {
+    "id": "empty",
+    "suite": "hidden",
+    "input": "",
+    "expected": {
+      "kind": "ValueError"
+    },
+    "actual": {
+      "kind": "ValueError"
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.030282124998848303
+  },
+  {
+    "id": "two-decimal-points",
+    "suite": "hidden",
+    "input": "1.2.3",
+    "expected": {
+      "kind": "ValueError"
+    },
+    "actual": {
+      "kind": "ValueError"
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.030435666998528177
+  },
+  {
+    "id": "no-number",
+    "suite": "hidden",
+    "input": "₹ lakh",
+    "expected": {
+      "kind": "ValueError"
+    },
+    "actual": {
+      "kind": "ValueError"
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.030437749999691732
+  },
+  {
+    "id": "scientific-notation",
+    "suite": "hidden",
+    "input": "₹1e5",
+    "expected": {
+      "kind": "ValueError"
+    },
+    "actual": {
+      "kind": "ValueError"
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.030690666999362293
+  },
+  {
+    "id": "unbalanced-parentheses",
+    "suite": "hidden",
+    "input": "(200",
+    "expected": {
+      "kind": "ValueError"
+    },
+    "actual": {
+      "kind": "ValueError"
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.030308916000649333
+  },
+  {
+    "id": "double-minus",
+    "suite": "hidden",
+    "input": "--200",
+    "expected": {
+      "kind": "ValueError"
+    },
+    "actual": {
+      "kind": "ValueError"
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03039924999939103
+  },
+  {
+    "id": "marker-after-number",
+    "suite": "hidden",
+    "input": "500 INR",
+    "expected": {
+      "kind": "ValueError"
+    },
+    "actual": {
+      "kind": "ValueError"
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03043512500153156
+  },
+  {
+    "id": "fractional-paisa",
+    "suite": "hidden",
+    "input": "0.00000001 lakh",
+    "expected": {
+      "kind": "ValueError"
+    },
+    "actual": {
+      "kind": "ValueError"
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.030334667000715854
+  },
+  {
+    "id": "two-negative-forms",
+    "suite": "hidden",
+    "input": "(-200)",
+    "expected": {
+      "kind": "ValueError"
+    },
+    "actual": {
+      "kind": "ValueError"
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03046337500018126
+  },
+  {
+    "id": "plus-sign",
+    "suite": "hidden",
+    "input": "+200",
+    "expected": {
+      "kind": "ValueError"
+    },
+    "actual": {
+      "kind": "ValueError"
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03112633300042944
+  },
+  {
+    "id": "missing-integer-part",
+    "suite": "hidden",
+    "input": ".50",
+    "expected": {
+      "kind": "ValueError"
+    },
+    "actual": {
+      "kind": "ValueError"
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03057062500010943
+  },
+  {
+    "id": "missing-fractional-part",
+    "suite": "hidden",
+    "input": "1.",
+    "expected": {
+      "kind": "ValueError"
+    },
+    "actual": {
+      "kind": "ValueError"
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.030685124998854008
+  },
+  {
+    "id": "leading-comma",
+    "suite": "hidden",
+    "input": ",100",
+    "expected": {
+      "kind": "ValueError"
+    },
+    "actual": {
+      "kind": "ValueError"
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.030193499998858897
+  },
+  {
+    "id": "trailing-comma",
+    "suite": "hidden",
+    "input": "100,",
+    "expected": {
+      "kind": "ValueError"
+    },
+    "actual": {
+      "kind": "ValueError"
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03113212499920337
+  },
+  {
+    "id": "consecutive-commas",
+    "suite": "hidden",
+    "input": "1,,00",
+    "expected": {
+      "kind": "ValueError"
+    },
+    "actual": {
+      "kind": "ValueError"
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03067150000060792
+  },
+  {
+    "id": "fractional-comma",
+    "suite": "hidden",
+    "input": "1.2,5",
+    "expected": {
+      "kind": "ValueError"
+    },
+    "actual": {
+      "kind": "ValueError"
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03021962499951769
+  },
+  {
+    "id": "space-inside-number",
+    "suite": "hidden",
+    "input": "1 000",
+    "expected": {
+      "kind": "ValueError"
+    },
+    "actual": {
+      "kind": "ValueError"
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03069333299936261
+  },
+  {
+    "id": "unknown-suffix",
+    "suite": "hidden",
+    "input": "1 million",
+    "expected": {
+      "kind": "ValueError"
+    },
+    "actual": {
+      "kind": "ValueError"
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.030650499998955638
+  },
+  {
+    "id": "non-ascii-digits",
+    "suite": "hidden",
+    "input": "１２",
+    "expected": {
+      "kind": "ValueError"
+    },
+    "actual": {
+      "kind": "ValueError"
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.030467041999145295
+  },
+  {
+    "id": "non-string",
+    "suite": "hidden",
+    "input": null,
+    "expected": {
+      "kind": "ValueError"
+    },
+    "actual": {
+      "kind": "ValueError"
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.031691083999248804
+  },
+  {
+    "id": "rupee-sign",
+    "suite": "practice",
+    "input": "₹500",
+    "expected": {
+      "kind": "int",
+      "value": 50000
+    },
+    "actual": {
+      "kind": "int",
+      "value": 50000
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03249566700105788
+  },
+  {
+    "id": "commas",
+    "suite": "practice",
+    "input": "Rs. 1,250",
+    "expected": {
+      "kind": "int",
+      "value": 125000
+    },
+    "actual": {
+      "kind": "int",
+      "value": 125000
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03143637500033947
+  },
+  {
+    "id": "decimal",
+    "suite": "practice",
+    "input": "INR 99.50",
+    "expected": {
+      "kind": "int",
+      "value": 9950
+    },
+    "actual": {
+      "kind": "int",
+      "value": 9950
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.03095483400102239
+  },
+  {
+    "id": "unknown-word",
+    "suite": "practice",
+    "input": "abc",
+    "expected": {
+      "kind": "ValueError"
+    },
+    "actual": {
+      "kind": "ValueError"
+    },
+    "passed": true,
+    "reason": "match",
+    "sandbox_status": "finished",
+    "returncode": 0,
+    "seconds": 0.030888999999660882
+  }
+]

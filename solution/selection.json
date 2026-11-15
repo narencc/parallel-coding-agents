@@ -5,8 +5,8 @@
   "commit": "46288e9267df9b6ab71df202384a48393c2e6423",
   "baseline_commit": "fff0eff1919fbac9c75be9abcbd6c3c021707e8d",
   "candidate_sha256": "d175736e9fbc7c7e4910023325ee50aec8202dfecb0985890e0b43c1f124ea8d",
-  "judge_record": "/Users/naren/Desktop/parallel-coding-agents/workdir/races/race-20261115T155112Z-rdly1111/judge-20261115T155616Z-ca5yn801/judge.json",
-  "destination": "/Users/naren/Desktop/parallel-coding-agents/solution",
+  "judge_record": "workdir/races/race-20261115T155112Z-rdly1111/judge-20261115T155616Z-ca5yn801/judge.json",
+  "destination": "solution",
   "final_verification": {
     "lane": "lane-1",
     "model": "gpt-6-astra",
@@ -811,5 +811,6 @@
     "practice_passed": 4
   },
   "status": "kept",
-  "main_commit": "46288e9267df9b6ab71df202384a48393c2e6423"
+  "main_commit": "46288e9267df9b6ab71df202384a48393c2e6423",
+  "public_original_results": "examples/money-converter/lanes/lane-1/original-results.json"
 }

@@ -79,12 +79,19 @@ def practice() -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("lesson", "models", "doctor", "practice", "connect", "sandbox-check", "agent", "race", "judge", "keep"))
+    parser.add_argument("command", choices=("lesson", "models", "doctor", "practice", "connect", "sandbox-check", "agent", "race", "judge", "keep", "replay", "recheck"))
     parser.add_argument("--race", help="Saved race folder to judge; required for judge")
     parser.add_argument("--judge", help="Exact judge.json record for keep")
     parser.add_argument("--lane", help="Reviewed winning lane for keep")
     parser.add_argument("--destination", help="New solution folder for keep; defaults to solution")
+    parser.add_argument("--demo", action="store_true", help="Pace the recorded replay over about 48 seconds")
     args = parser.parse_args()
+    if args.command == "replay":
+        from .evidence import replay
+        return replay(args.lane, args.demo)
+    if args.command == "recheck":
+        from .evidence import recheck_example
+        return recheck_example()
     if args.command == "keep":
         from .selection import keep_command
         return keep_command(args.race, args.judge, args.lane, args.destination)
