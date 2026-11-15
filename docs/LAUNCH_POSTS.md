@@ -3,6 +3,26 @@
 The repository and evidence are public. These drafts focus on the money-converter
 experiment. The links are ready to use; the posts have not been published.
 
+## First public launch post
+
+Ready to copy and share. This post has not been published.
+
+> I gave five GPT models the same coding task. **All five answers passed the first tests. Extra checks found problems in two.**
+>
+> I built this project to learn how AI coding agents work—and explain the process in simple English.
+>
+> Each model worked separately. I saved their answers, checked the results, and reviewed which answer to keep. Three tied on the checks, so how easy their code was to read helped decide.
+>
+> You can explore the answers, tests, and results for free. No API key needed.
+>
+> 🎬 [Watch the 25-second demo with voice-over](https://github.com/narencc/parallel-coding-agents/blob/main/brag-output/brag.mp4)
+>
+> 💻 [Explore the GitHub repo](https://github.com/narencc/parallel-coding-agents)
+>
+> This is one experiment, not a ranking of which model is best.
+>
+> **Can you find an input that breaks the answer we kept?** If the project helps you learn something, consider giving it a star.
+
 ## Developer-focused post
 
 > All five AI solutions passed our original tests. Extra checks found bugs in two.
