@@ -13,7 +13,7 @@ a site published, or a person has tried the project.
 - [x] Separate sandboxed command to reproduce the evidence without API requests.
 - [x] Contribution guide and specific issue templates.
 - [x] Draft posts and feedback questions.
-- [x] A defined proposal for a useful second assignment, clearly marked unrun.
+- [x] A completed second assignment with a prewritten, frozen assessment and published local evidence.
 
 ## Before sharing the first feedback release
 
@@ -43,8 +43,8 @@ invent completed feedback sessions or publish personal details without consent.
 ## Before a broader launch
 
 - [ ] Resolve important feedback from the first release.
-- [ ] Implement and run the second assignment with tests fixed in advance.
-- [ ] Report its results even if they are not surprising.
+- [x] Implement and run the second assignment with tests fixed in advance.
+- [x] Report its results even if they are not surprising: all five passed all 48 booking cases.
 - [ ] Record a short screen demonstration if a video is useful for the chosen channel.
 - [ ] Replace placeholders in the draft post with the real public link.
 - [ ] Check that each claimed feature is available to visitors.

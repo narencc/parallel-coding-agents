@@ -23,7 +23,7 @@ def lesson() -> int:
 
 
 def models() -> int:
-    print("Planned lanes (account access not verified):\n")
+    print("Configured lanes (this command does not verify account access):\n")
     for lane in LANES:
         print(f"  {lane.name:<8} {lane.model:<18} reasoning={lane.reasoning_effort}")
     print(f"\nInitial limits: {MAX_ROUNDS} calls per lane, "
@@ -61,13 +61,15 @@ def doctor() -> int:
     return 0 if all(checks.values()) else 1
 
 
-def practice() -> int:
+def practice(task_name="money") -> int:
+    from .tasks import get_task
+    task = get_task(task_name)
     from .sandbox import SandboxUnavailable, VISIBLE_TEST_PROGRAM, run_python
 
     print("Checking the unfinished answer sheet.", flush=True)
     print("Expected today: 4 failures because parse_inr is not implemented.\n", flush=True)
     try:
-        result = run_python(VISIBLE_TEST_PROGRAM)
+        result = run_python(VISIBLE_TEST_PROGRAM, source=task.source, files=task.files)
     except (SandboxUnavailable, ValueError, OSError) as error:
         print(f"Practice was not run: {error}")
         return 1
@@ -82,20 +84,38 @@ def main() -> int:
     parser.add_argument("command", choices=("lesson", "models", "doctor", "practice", "connect", "sandbox-check", "agent", "race", "judge", "keep", "replay", "recheck"))
     parser.add_argument("--race", help="Saved race folder to judge; required for judge")
     parser.add_argument("--judge", help="Exact judge.json record for keep")
-    parser.add_argument("--lane", help="Reviewed winning lane for keep")
-    parser.add_argument("--destination", help="New solution folder for keep; defaults to solution")
+    parser.add_argument("--lane", help="Reviewed winning lane for keep, or lane to inspect in replay")
+    parser.add_argument("--destination", help="New solution folder for keep; defaults to the task-specific solution folder")
     parser.add_argument("--demo", action="store_true", help="Pace the recorded replay over about 48 seconds")
+    parser.add_argument("--task", choices=("money", "bookings"), default="money", help="Assignment for race, practice, replay, or recheck")
     args = parser.parse_args()
+    if args.command == "practice":
+        return practice(args.task)
     if args.command == "replay":
+        if args.task == "bookings":
+            if args.demo:
+                parser.error("The paced --demo replay is currently available for the money example only.")
+            from .booking_example import replay_bookings
+            return replay_bookings(args.lane)
         from .evidence import replay
         return replay(args.lane, args.demo)
     if args.command == "recheck":
+        if args.task == "bookings":
+            from .booking_example import recheck_bookings
+            return recheck_bookings()
         from .evidence import recheck_example
         return recheck_example()
     if args.command == "keep":
         from .selection import keep_command
         return keep_command(args.race, args.judge, args.lane, args.destination)
     if args.command == "judge":
+        if args.race:
+            import json
+            from pathlib import Path
+            record = json.loads((Path(args.race) / "race.json").read_text())
+            if record.get("task") == "bookings":
+                from .booking_judge import judge_bookings
+                return judge_bookings(args.race)
         from .judge import judge_command
         return judge_command(args.race)
     if args.command == "connect":
@@ -109,7 +129,7 @@ def main() -> int:
         return agent()
     if args.command == "race":
         from .race import race_command
-        return race_command()
+        return race_command(args.task)
     commands = {"lesson": lesson, "models": models, "doctor": doctor, "practice": practice}
     return commands[args.command]()
 

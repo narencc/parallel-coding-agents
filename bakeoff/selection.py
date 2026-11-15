@@ -7,6 +7,7 @@ import tempfile
 from .judge import digest, HIDDEN, judge_lane, load_cases
 from .race import save_json
 from .repo import git
+from .tasks import get_task
 
 
 def keep_candidate(race, judge_file, lane_name, destination, *, verify=judge_lane):
@@ -15,12 +16,22 @@ def keep_candidate(race, judge_file, lane_name, destination, *, verify=judge_lan
         raise ValueError('Destination already exists; refusing to overwrite it.')
     record = json.loads((race / 'race.json').read_text())
     assessment = json.loads(judge_file.read_text())
+    task = get_task(record.get('task', 'money'))
     lane = next(r for r in record['lanes'] if r['lane'] == lane_name)
     verdict = next(r for r in assessment['lanes'] if r['lane'] == lane_name)
     baseline, commit = record['baseline_commit'], lane['candidate_commit']
-    cases = load_cases()
+    if task.name == 'bookings':
+        from .booking_judge import read_frozen, judge_booking_lane
+        frozen = read_frozen(race)
+        cases = frozen['cases']
+        suite_matches = assessment.get('assessment_commit') == git(race / 'assessment', 'rev-parse', 'HEAD').strip()
+        if verify is judge_lane:
+            verify = judge_booking_lane
+    else:
+        cases = load_cases()
+        suite_matches = assessment.get('hidden_suite_sha256') == digest(HIDDEN.read_bytes())
     if (assessment['baseline_commit'] != baseline or verdict['commit'] != commit
-            or not verdict['qualified'] or assessment['hidden_suite_sha256'] != digest(HIDDEN.read_bytes())
+            or not verdict['qualified'] or not suite_matches
             or assessment['case_manifest_sha256'] != digest(json.dumps(cases, sort_keys=True).encode())):
         raise ValueError('Judging evidence does not match this candidate and current suite.')
     repo = race / 'repo'
@@ -32,17 +43,17 @@ def keep_candidate(race, judge_file, lane_name, destination, *, verify=judge_lan
     fresh = verify(race, lane, baseline, cases)
     if not fresh['qualified']:
         raise ValueError('Candidate failed its final verification; nothing was kept.')
-    selection = {'stage': 7, 'lane': lane_name, 'model': lane['model'], 'commit': commit,
+    selection = {'task': task.name, 'stage': 7, 'lane': lane_name, 'model': lane['model'], 'commit': commit,
                  'baseline_commit': baseline, 'candidate_sha256': lane['candidate_sha256'],
                  'judge_record': str(judge_file), 'destination': str(destination),
                  'final_verification': fresh, 'status': 'prepared'}
     staging = Path(tempfile.mkdtemp(prefix='.keep-', dir=destination.parent))
     try:
-        for name in ('money.py', 'SPEC.md', 'tests/test_visible.py'):
+        for name in task.files:
             target = staging / name
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(git(repo, 'show', commit + ':' + name).encode())
-        if digest((staging / 'money.py').read_bytes()) != lane['candidate_sha256']:
+        if digest((staging / task.answer).read_bytes()) != lane['candidate_sha256']:
             raise ValueError('Export differs from verified candidate.')
         save_json(staging / 'selection.json', selection)
         # Only the small race repository is merged; the outer user repository is not committed.
@@ -70,7 +81,10 @@ def keep_command(race, judge_file, lane, destination=None):
         if not all(run_checks().values()):
             print('Sandbox checks failed; nothing was kept.')
             return 1
-        result = keep_candidate(race, judge_file, lane, destination or ROOT / 'solution')
+        if destination is None:
+            task_name = json.loads((Path(race) / 'race.json').read_text()).get('task', 'money')
+            destination = ROOT / ('solution-bookings' if task_name == 'bookings' else 'solution')
+        result = keep_candidate(race, judge_file, lane, destination)
     except (ValueError, RuntimeError, OSError, KeyError, StopIteration) as error:
         print(f'Could not keep the candidate ({type(error).__name__}). Inspect the paths and saved evidence.')
         return 1

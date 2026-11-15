@@ -9,6 +9,7 @@ import time
 from openai import OpenAI
 
 from .agent import run_agent
+from .tasks import MONEY, get_task
 from .budget import RaceBudget
 from .config import LANES, MAX_ROUNDS
 from .credentials import load_credentials
@@ -36,7 +37,7 @@ def peak_requests(reports) -> int:
 
 
 def execute_race(race: Path, baseline: str, api_key: str, *, client_factory=OpenAI,
-                 runner=run_agent, budget=None) -> dict:
+                 runner=run_agent, budget=None, task=MONEY) -> dict:
     budget = budget or RaceBudget()
     start = time.monotonic()
     stop = threading.Event()
@@ -55,8 +56,8 @@ def execute_race(race: Path, baseline: str, api_key: str, *, client_factory=Open
             with client_factory(api_key=api_key, base_url="https://api.openai.com/v1",
                                 timeout=45.0, max_retries=0) as client:
                 report = runner(client, folder, lane=lane, budget=budget, stop_event=stop,
-                                clock_start=start, log=lambda message: log(lane, message))
-            report["candidate_commit"] = record_candidate(folder, report, baseline)
+                                clock_start=start, log=lambda message: log(lane, message), task=task)
+            report["candidate_commit"] = record_candidate(folder, report, baseline, task=task)
             report["commit_verified"] = True
         except Exception as error:
             # Contain one lane's failure. Never echo provider bodies or credentials.
@@ -107,7 +108,7 @@ def execute_race(race: Path, baseline: str, api_key: str, *, client_factory=Open
                                           "usage_complete": False}
     reports = [results[lane.name] for lane in LANES]
     summary = {
-        "stage": 5, "interrupted": interrupted, "baseline_commit": baseline,
+        "task": task.name, "stage": 5, "interrupted": interrupted, "baseline_commit": baseline,
         "seconds": time.monotonic() - start, "lanes": reports,
         "peak_inflight_requests": peak_requests(reports),
         "input_tokens": sum(r.get("input_tokens", 0) for r in reports),
@@ -134,7 +135,8 @@ def execute_race(race: Path, baseline: str, api_key: str, *, client_factory=Open
     return summary
 
 
-def race_command() -> int:
+def race_command(task_name="money") -> int:
+    task = get_task(task_name)
     print("STEP 5: Five GPT models, five separate desks, one shared assignment.", flush=True)
     try:
         credentials = load_credentials()
@@ -142,13 +144,16 @@ def race_command() -> int:
         if not all(run_checks().values()):
             print("Sandbox checks failed. No model requests were made.")
             return 1
-        folder, baseline = prepare_race()
+        folder, baseline = prepare_race(task=task)
+        if task.name == "bookings":
+            from .booking_judge import freeze_assessment
+            freeze_assessment(folder, baseline)
         print(f"Race folder: {folder}")
         print(f"All branches start from {baseline[:12]}.")
         print(git(folder / "repo", "worktree", "list"), end="")
         print(f"Starting five lanes: up to {MAX_ROUNDS} calls each, 20 total; "
               "$2 shared estimated-cost reservation guard. API usage is billable.", flush=True)
-        result = execute_race(folder, baseline, credentials.key)
+        result = execute_race(folder, baseline, credentials.key, task=task)
     except (ValueError, OSError, RuntimeError) as error:
         print(f"Race setup or reporting failed ({type(error).__name__}). Existing artifacts are retained.")
         return 1

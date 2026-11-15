@@ -8,6 +8,7 @@ import shutil
 import subprocess
 import tempfile
 
+from .tasks import MONEY
 from .config import LANES, ROOT, SAMPLE
 from .sandbox import prepared_workspace
 
@@ -27,21 +28,21 @@ def git(cwd: Path, *args: str) -> str:
     return result.stdout.decode("utf-8")
 
 
-def prepare_race(parent: Path | None = None) -> tuple[Path, str]:
+def prepare_race(parent: Path | None = None, *, task=MONEY) -> tuple[Path, str]:
     parent = parent or ROOT / "workdir" / "races"
     if any(path.is_symlink() for path in (parent, *parent.parents)):
         raise ValueError("Race directory must not have symlink parents.")
     parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     race = Path(tempfile.mkdtemp(prefix=f"race-{stamp}-", dir=parent)).resolve()
-    with prepared_workspace("", SAMPLE) as snapshot:
+    with prepared_workspace("", task.source, files=task.files) as snapshot:
         shutil.copytree(snapshot / "source", race / "repo")
     repository = race / "repo"
     (repository / ".gitignore").write_text("__pycache__/\n.pytest_cache/\n")
     git(repository, "init", "-q", "-b", "main")
     git(repository, "config", "user.name", "bakeoff learning project")
     git(repository, "config", "user.email", "bakeoff@localhost")
-    git(repository, "add", "--", "money.py", "SPEC.md", "tests/test_visible.py", ".gitignore")
+    git(repository, "add", "--", *task.files, ".gitignore")
     git(repository, "commit", "-q", "-m", "Starting assignment for all five lanes")
     start = git(repository, "rev-parse", "HEAD").strip()
     for lane in LANES:
@@ -53,22 +54,22 @@ def prepare_race(parent: Path | None = None) -> tuple[Path, str]:
     return race, start
 
 
-def record_candidate(folder: Path, report: dict, baseline: str) -> str:
+def record_candidate(folder: Path, report: dict, baseline: str, *, task=MONEY) -> str:
     candidate = folder / "candidate"
-    content = (candidate / "money.py").read_bytes()
+    content = (candidate / task.answer).read_bytes()
     if hashlib.sha256(content).hexdigest() != report.get("candidate_sha256"):
         raise RuntimeError("Candidate changed after the agent finished.")
     if not report.get("protected_files_unchanged"):
         raise RuntimeError("Protected assignment files changed.")
     changed = set(git(candidate, "diff", "--name-only", baseline).splitlines())
     untracked = git(candidate, "ls-files", "--others", "--exclude-standard").splitlines()
-    if changed - {"money.py"} or untracked:
+    if changed - {task.answer} or untracked:
         raise RuntimeError("Unexpected files changed in candidate worktree.")
-    git(candidate, "add", "--", "money.py")
+    git(candidate, "add", "--", task.answer)
     if git(candidate, "diff", "--cached", "--name-only").strip():
         git(candidate, "commit", "-q", "-m", f"Record {report['lane']} candidate: {report['status']}")
     commit = git(candidate, "rev-parse", "HEAD").strip()
-    recorded = git(candidate, "show", f"{commit}:money.py").encode("utf-8")
+    recorded = git(candidate, "show", f"{commit}:{task.answer}").encode("utf-8")
     if hashlib.sha256(recorded).hexdigest() != report["candidate_sha256"]:
         raise RuntimeError("Recorded commit differs from the tested candidate.")
     if git(candidate, "status", "--porcelain").strip():

@@ -1,15 +1,18 @@
 # All five AI solutions passed our original tests. Extra checks found bugs in two.
 
-Five GPT models solved the same coding task in separate working folders. This
+Five GPT models solved the same coding task in separate working folders. We have
+now completed two assignments: money conversion and combining booking times. This
 project keeps their drafts, checks their saved answers, and explains why we kept
 one. **Explore a completed experiment for free—no API key needed.**
 
-[Inspect the evidence](examples/money-converter/README.md) ·
+[Money evidence](examples/money-converter/README.md) ·
+[Booking evidence](examples/bookings/README.md) ·
+[Compare both](docs/EXPERIMENT_COMPARISON.md) ·
 [Beginner guide](docs/BEGINNER_GUIDE.md) ·
 [Why we chose the winner](solution/README.md) ·
 [Challenge the answer](CONTRIBUTING.md)
 
-## What happened in this experiment?
+## What happened in the money-converter experiment?
 
 The assignment was a money converter: `₹500` becomes `50000` paise. All five
 answers passed 40 hidden checks and four practice checks. Reading their code
@@ -36,6 +39,27 @@ this is not a controlled price comparison. [Tokens, rates, and exact totals](exa
 Astra, Sol 6.1, and Terra tied on observed checks. We chose **Astra** for its clear
 single-function flow. This was an explicit code-review judgment, not automatic
 winner selection. [Read the retained answer](solution/money.py).
+
+## The second experiment: booking times
+
+Combine bookings that overlap or touch. For example, `[[60, 120], [90, 150]]`
+becomes `[[60, 150]]`, while the original list stays unchanged.
+
+**All five passed all 48 prewritten cases.** The rules and assessment were frozen
+before model requests. No post-hoc cases were added. Each model wrote one draft
+and used two requests; the race took 12.84 seconds and cost an estimated $0.0655729.
+Sol 6.1 was kept on a readability tie-break among the five passing answers.
+
+[Simple step-by-step lesson](docs/BOOKING_EXPERIMENT.md) ·
+[All five answers and evidence](examples/bookings/README.md) ·
+[Kept booking solution](solution-bookings/README.md)
+
+```sh
+python3 -m bakeoff replay --task bookings
+```
+
+The first experiment exposed weaknesses through additional review; the second
+ended in a five-way tie. [See both results without combining unlike tests into a ranking](docs/EXPERIMENT_COMPARISON.md).
 
 ## Explore it without installing anything
 
@@ -80,6 +104,9 @@ requests. It succeeds when the pass/fail results match the recording—including
 the ten expected failed cases across Luna and Sol 6. A new report goes into
 `workdir/`; the published evidence is not changed.
 
+For the booking example, use `.venv/bin/python -m bakeoff recheck --task bookings`.
+It runs 48 prewritten cases per candidate and makes no model requests.
+
 To check the coordinator itself, run `.venv/bin/python -m pytest -q`.
 
 ## Start a new paid race
@@ -95,8 +122,9 @@ in your shell. Do not commit or share the key. Then:
 You need access to the configured models. This makes billable API requests:
 at most four per lane, 20 total, with a shared $2 **estimated** reservation guard.
 It is not a guaranteed billing cap. The models may produce different answers.
-The current coordinator supports this money-converter assignment; it is not yet
-a general tool for fixing arbitrary repositories.
+Use `.venv/bin/python -m bakeoff race --task bookings` for a new booking race.
+The coordinator supports these two explicit assignments; it is not a general tool
+for fixing arbitrary repositories.
 
 [Detailed setup and seven-step workflow](docs/BEGINNER_GUIDE.md).
 
@@ -121,8 +149,8 @@ answer we kept.
 Give us an input, the expected answer, the actual answer, and the assignment rule
 that supports your expectation. [Contribution guide](CONTRIBUTING.md).
 
-You can also suggest a useful second assignment or help make an explanation
-clearer. [Next experiment proposal](docs/NEXT_EXPERIMENT.md) ·
+You can also suggest a useful next assignment or help make an explanation
+clearer. [Completed second experiment](docs/BOOKING_EXPERIMENT.md) ·
 [Feedback and release checklist](docs/LAUNCH_CHECKLIST.md).
 
 If this helps you understand or evaluate AI coding agents, consider starring the

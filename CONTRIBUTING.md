@@ -5,7 +5,7 @@ contribution is a clear example of something that does not work as specified.
 
 ## Can you break the kept answer?
 
-Read the [assignment rules](sample/SPEC.md), then report:
+Read the [money rules](sample/SPEC.md) or [booking rules](assignments/bookings/SPEC.md), then report:
 
 1. **Input:** exactly what you tried, including spaces and punctuation.
 2. **Expected answer:** the exact paise value, or why the input should be rejected.
@@ -36,7 +36,7 @@ on GitHub. No API key or paid run is needed to participate.
 Use Python 3.12+ and install `requirements.txt` in a virtual environment. Follow
 the [README](README.md) for setup. Run `.venv/bin/python -m pytest -q` to check the
 coordinator. Run `.venv/bin/python -m bakeoff recheck` on supported macOS to
-reproduce the saved candidates' results. It expects the same known failures.
+reproduce the saved money candidates' results. Add `--task bookings` for the booking candidates. It expects the same known failures.
 
 Keep execution of generated code inside the sandbox. Do not directly import
 candidate files or run their tests with unrestricted pytest. On other operating
@@ -48,10 +48,10 @@ the new behavior, and how you checked it. Preserve the exact recorded winner.
 
 ## Suggest another assignment
 
-Choose a useful, different task with rules we can check objectively. Include a
+The booking task is now complete. Choose a useful, different future task with rules we can check objectively. Include a
 few examples, invalid inputs, and why the task tests different skills. Do not
 choose tasks just because they might make a particular model fail. See the
-[second-experiment proposal](docs/NEXT_EXPERIMENT.md).
+[completed second experiment](docs/NEXT_EXPERIMENT.md).
 
 ## Improve an explanation
 

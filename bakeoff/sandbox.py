@@ -71,9 +71,11 @@ def make_profile(workspace: Path) -> str:
 
 
 @contextmanager
-def prepared_workspace(program: str, source: Path = SAMPLE):
+def prepared_workspace(program: str, source: Path = SAMPLE, *, files=COPY_FILES):
     """Make a fresh snapshot. Symlinks and special files are not assignments."""
     require_backend()
+    if tuple(files) not in (COPY_FILES, ("SPEC.md", "schedule.py", "tests/test_visible.py")):
+        raise ValueError("Unknown task copy list; no files were copied.")
     if len(program.encode("utf-8")) > MAX_SOURCE_BYTES:
         raise ValueError("Program exceeds the 128 KiB lesson limit.")
     parent = ROOT / "workdir" / "sandboxes"
@@ -85,7 +87,7 @@ def prepared_workspace(program: str, source: Path = SAMPLE):
         source = source.absolute()
         if source.is_symlink() or not source.is_dir():
             raise ValueError("Assignment source must be a real directory.")
-        for relative in COPY_FILES:
+        for relative in files:
             origin = source / relative
             if any(p.is_symlink() for p in (origin, *origin.parents)):
                 raise ValueError(f"Refusing symlink in assignment: {relative}")
@@ -120,11 +122,11 @@ def _kill_group(process: subprocess.Popen) -> None:
 
 
 def run_python(program: str, *, source: Path = SAMPLE,
-               timeout: float = TEST_TIMEOUT_SECONDS) -> SandboxResult:
+               timeout: float = TEST_TIMEOUT_SECONDS, files=COPY_FILES) -> SandboxResult:
     """Execute only inside the sandbox. This result is NOT a trusted judge score."""
     if not math.isfinite(timeout) or not 0 < timeout <= TEST_TIMEOUT_SECONDS:
         raise ValueError(f"Timeout must be between 0 and {TEST_TIMEOUT_SECONDS} seconds.")
-    with prepared_workspace(program, source) as workspace:
+    with prepared_workspace(program, source, files=files) as workspace:
         # Allowlist environment variables instead of trying to remove every secret.
         env = {
             "PATH": "/usr/bin:/bin", "LANG": "en_US.UTF-8",

@@ -1,0 +1,217 @@
+{
+  "schema_version": 1,
+  "task": "bookings",
+  "recorded": true,
+  "run_id": "race-20261115T164405Z-o222yldv",
+  "date_utc": "2026-11-15",
+  "baseline_commit": "4c111aba4bc35d7e9a020b7b1fda7de727b49c46",
+  "assessment_commit": "f5b46975a97ddd405b2ff872bc3b552af8d06719",
+  "seconds": 12.84347491600056,
+  "peak_inflight_requests": 5,
+  "total_requests": 10,
+  "input_tokens": 11510,
+  "output_tokens": 1927,
+  "estimated_usd": "0.0655729",
+  "cost_basis": "Recorded standard uncached rates; not a provider bill or future-price guarantee",
+  "selected_lane": "lane-2",
+  "selected_commit": "3b400626a00cc57f61ad244f1f8f409e15f67888",
+  "selection_reason": "All five tied on the 48 prewritten cases. Sol 6.1 was chosen for explicit, separate validation and a clear copy-sort-merge sequence. This is a readability judgment.",
+  "post_hoc_cases_added": 0,
+  "lanes": [
+    {
+      "lane": "lane-1",
+      "model": "gpt-6-astra",
+      "commit": "88f96e3ec20f3d11d4253588ecff7794eea9be2a",
+      "source_path": "lanes/lane-1/schedule.py",
+      "source_sha256": "93c602a552683d316758da79cd839beb192aa58dcfc0947174a81f5d841421e9",
+      "results_path": "lanes/lane-1/results.json",
+      "drafts": [
+        {
+          "number": 1,
+          "round": 1,
+          "explanation": "Validate all shapes, integer endpoints and bounds without mutating input, then sort copies and merge overlapping or touching windows into independent lists.",
+          "sha256": "93c602a552683d316758da79cd839beb192aa58dcfc0947174a81f5d841421e9",
+          "path": "lanes/lane-1/draft-01.py",
+          "practice_passed": 4
+        }
+      ],
+      "rounds": 2,
+      "input_tokens": 2353,
+      "output_tokens": 415,
+      "input_usd_per_million": "10",
+      "output_usd_per_million": "50",
+      "estimated_usd": "0.04428",
+      "requests": [
+        {
+          "round": 1,
+          "started_seconds": 0.27972008300093876,
+          "ended_seconds": 7.8826235409997025
+        },
+        {
+          "round": 2,
+          "started_seconds": 8.183088333000342,
+          "ended_seconds": 12.694821791001232
+        }
+      ],
+      "status": "qualified",
+      "passed": 48,
+      "total": 48
+    },
+    {
+      "lane": "lane-2",
+      "model": "gpt-6.1-sol",
+      "commit": "3b400626a00cc57f61ad244f1f8f409e15f67888",
+      "source_path": "lanes/lane-2/schedule.py",
+      "source_sha256": "ed702b021ab15a63377dc286a580bcb8592eccdf05bcbe1692f273bd579bf222",
+      "results_path": "lanes/lane-2/results.json",
+      "drafts": [
+        {
+          "number": 1,
+          "round": 1,
+          "explanation": "Validate all shapes, integer endpoints, and bounds before merging copied windows. Sorting copies and constructing fresh output preserves the input even on rejection and merges touching chains without closing actual gaps.",
+          "sha256": "ed702b021ab15a63377dc286a580bcb8592eccdf05bcbe1692f273bd579bf222",
+          "path": "lanes/lane-2/draft-01.py",
+          "practice_passed": 4
+        }
+      ],
+      "rounds": 2,
+      "input_tokens": 2332,
+      "output_tokens": 421,
+      "input_usd_per_million": "2",
+      "output_usd_per_million": "10",
+      "estimated_usd": "0.008874",
+      "requests": [
+        {
+          "round": 1,
+          "started_seconds": 0.2810027909999917,
+          "ended_seconds": 5.969961708000483
+        },
+        {
+          "round": 2,
+          "started_seconds": 6.1324477910002315,
+          "ended_seconds": 8.965527457999997
+        }
+      ],
+      "status": "qualified",
+      "passed": 48,
+      "total": 48
+    },
+    {
+      "lane": "lane-3",
+      "model": "gpt-6.1-terra",
+      "commit": "775efa824e7f6aacb2bc0fda16004d0751d1eac9",
+      "source_path": "lanes/lane-3/schedule.py",
+      "source_sha256": "598876079304869387e5f3755b7133ae7754d417cf24cf99ebffca1fe8a8b4c3",
+      "results_path": "lanes/lane-3/results.json",
+      "drafts": [
+        {
+          "number": 1,
+          "round": 1,
+          "explanation": "Validate all input without modifying it, then sort and merge overlapping or touching windows into new lists.",
+          "sha256": "598876079304869387e5f3755b7133ae7754d417cf24cf99ebffca1fe8a8b4c3",
+          "path": "lanes/lane-3/draft-01.py",
+          "practice_passed": 4
+        }
+      ],
+      "rounds": 2,
+      "input_tokens": 2259,
+      "output_tokens": 339,
+      "input_usd_per_million": "1",
+      "output_usd_per_million": "5",
+      "estimated_usd": "0.003954",
+      "requests": [
+        {
+          "round": 1,
+          "started_seconds": 0.28868270800012397,
+          "ended_seconds": 5.500417375000325
+        },
+        {
+          "round": 2,
+          "started_seconds": 5.660293958000693,
+          "ended_seconds": 7.857840374999796
+        }
+      ],
+      "status": "qualified",
+      "passed": 48,
+      "total": 48
+    },
+    {
+      "lane": "lane-4",
+      "model": "gpt-6-luna",
+      "commit": "ddeb24c92c2018cccb2ac37561004177762917a7",
+      "source_path": "lanes/lane-4/schedule.py",
+      "source_sha256": "95982908709bc3841f5e4b58e3f6b6ca75f21b64d1acc27e20d05d22bde4d50f",
+      "results_path": "lanes/lane-4/results.json",
+      "drafts": [
+        {
+          "number": 1,
+          "round": 1,
+          "explanation": "Validate the exact list shapes and integer bounds before processing, then sort copied endpoint pairs and merge overlapping or touching ranges into fresh result lists.",
+          "sha256": "95982908709bc3841f5e4b58e3f6b6ca75f21b64d1acc27e20d05d22bde4d50f",
+          "path": "lanes/lane-4/draft-01.py",
+          "practice_passed": 4
+        }
+      ],
+      "rounds": 2,
+      "input_tokens": 2314,
+      "output_tokens": 399,
+      "input_usd_per_million": "0.1",
+      "output_usd_per_million": "0.5",
+      "estimated_usd": "0.0004309",
+      "requests": [
+        {
+          "round": 1,
+          "started_seconds": 0.27707879100125865,
+          "ended_seconds": 5.719389625000986
+        },
+        {
+          "round": 2,
+          "started_seconds": 5.839043750000201,
+          "ended_seconds": 7.579422165999858
+        }
+      ],
+      "status": "qualified",
+      "passed": 48,
+      "total": 48
+    },
+    {
+      "lane": "lane-5",
+      "model": "gpt-6-sol",
+      "commit": "d35de310bf4e4e276d2c3a77c5c3eb1c0b5f8aa5",
+      "source_path": "lanes/lane-5/schedule.py",
+      "source_sha256": "5871b0bee12b7d34a8ac933336e8e5a5887f796e26d922363b27eacfc1d312b4",
+      "results_path": "lanes/lane-5/results.json",
+      "drafts": [
+        {
+          "number": 1,
+          "round": 1,
+          "explanation": "Validate all input shapes and minute bounds before sorting, then merge overlapping or touching intervals into new lists without mutating the input.",
+          "sha256": "5871b0bee12b7d34a8ac933336e8e5a5887f796e26d922363b27eacfc1d312b4",
+          "path": "lanes/lane-5/draft-01.py",
+          "practice_passed": 4
+        }
+      ],
+      "rounds": 2,
+      "input_tokens": 2252,
+      "output_tokens": 353,
+      "input_usd_per_million": "2",
+      "output_usd_per_million": "10",
+      "estimated_usd": "0.008034",
+      "requests": [
+        {
+          "round": 1,
+          "started_seconds": 0.2794919999996637,
+          "ended_seconds": 4.725113958000293
+        },
+        {
+          "round": 2,
+          "started_seconds": 4.846803250000448,
+          "ended_seconds": 8.674814750000223
+        }
+      ],
+      "status": "qualified",
+      "passed": 48,
+      "total": 48
+    }
+  ]
+}

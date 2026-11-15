@@ -7,9 +7,11 @@ from pathlib import Path
 import shutil
 import tempfile
 import time
+from functools import partial
 
 from openai import APIConnectionError, APIStatusError, APITimeoutError, OpenAI
 
+from .tasks import MONEY
 from .config import LANES, MAX_OUTPUT_TOKENS, MAX_ROUNDS, ROOT, SAMPLE
 from .budget import BudgetExceeded
 from .connection import status_message
@@ -65,40 +67,45 @@ def new_attempt() -> Path:
     return folder
 
 
-def task_prompt(candidate: Path) -> str:
+def task_prompt(candidate: Path, files=COPY_FILES) -> str:
     return "\n\n".join(f"FILE {name}\n{(candidate / name).read_text(encoding='utf-8')}"
-                       for name in COPY_FILES)
+                       for name in files)
 
 
-def request_size(conversation) -> int:
+def request_size(conversation, instructions=SYSTEM, tools=TOOLS) -> int:
     def serialize(value):
         return value.model_dump(exclude_none=True)
-    return len(json.dumps({"instructions": SYSTEM, "tools": TOOLS, "input": conversation},
+    return len(json.dumps({"instructions": instructions, "tools": tools, "input": conversation},
                           default=serialize, ensure_ascii=False).encode("utf-8"))
 
 
 def run_agent(client, folder: Path, *, max_rounds: int = MAX_ROUNDS, checker=check_practice,
-              lane=LANE, budget=None, stop_event=None, clock_start=None, log=None) -> dict:
+              lane=LANE, budget=None, stop_event=None, clock_start=None, log=None, task=MONEY) -> dict:
     if not 1 <= max_rounds <= MAX_ROUNDS:
         raise ValueError("This lesson permits between one and four requests.")
     candidate = folder / "candidate"
+    answer = task.answer
+    instructions = SYSTEM.replace("parse_inr", task.function).replace("money.py", answer)
+    tools = json.loads(json.dumps(TOOLS).replace("money.py", answer))
+    if checker is check_practice and task != MONEY:
+        checker = partial(check_practice, expected=task.practice_ids, files=task.files)
     clock_start = time.monotonic() if clock_start is None else clock_start
     log = log or (lambda message: print(message, flush=True))
-    original = {name: sha256(candidate / name) for name in COPY_FILES if name != "money.py"}
+    original = {name: sha256(candidate / name) for name in task.files if name != answer}
     initial = checker(candidate)
     report = {
-        "model": lane.model, "lane": lane.name, "status": "running",
+        "task": task.name, "model": lane.model, "lane": lane.name, "status": "running",
         "rounds": 0, "input_tokens": 0, "output_tokens": 0,
         "usage_complete": True, "initial_practice": initial.to_dict(),
         "drafts": [], "events": [], "requests": [], "summary": "", "hidden_tests_run": False,
         "limits": {"calls": max_rounds, "output_tokens_per_call": MAX_OUTPUT_TOKENS,
                    "request_payload_bytes": MAX_REQUEST_BYTES, "automatic_retries": 0},
     }
-    conversation = [{"role": "user", "content": task_prompt(candidate)}]
+    conversation = [{"role": "user", "content": task_prompt(candidate, task.files)}]
     last = None
 
     def save():
-        report["candidate_sha256"] = sha256(candidate / "money.py")
+        report["candidate_sha256"] = sha256(candidate / answer)
         report["protected_files_unchanged"] = all(sha256(candidate / n) == digest for n, digest in original.items())
         temporary = folder / "report.tmp"
         temporary.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -111,7 +118,7 @@ def run_agent(client, folder: Path, *, max_rounds: int = MAX_ROUNDS, checker=che
             if stop_event is not None and stop_event.is_set():
                 report["status"] = "cancelled"
                 break
-            payload_bytes = request_size(conversation)
+            payload_bytes = request_size(conversation, instructions, tools)
             if payload_bytes > MAX_REQUEST_BYTES:
                 report["status"] = "context_limit"
                 break
@@ -130,8 +137,8 @@ def run_agent(client, folder: Path, *, max_rounds: int = MAX_ROUNDS, checker=che
             response = None
             try:
                 response = client.responses.create(
-                    model=lane.model, instructions=SYSTEM, input=conversation,
-                    tools=TOOLS, tool_choice="required", parallel_tool_calls=False,
+                    model=lane.model, instructions=instructions, input=conversation,
+                    tools=tools, tool_choice="required", parallel_tool_calls=False,
                     reasoning={"effort": lane.reasoning_effort}, max_output_tokens=MAX_OUTPUT_TOKENS,
                     store=False, include=["reasoning.encrypted_content"], service_tier="default",
                 )
@@ -170,13 +177,13 @@ def run_agent(client, folder: Path, *, max_rounds: int = MAX_ROUNDS, checker=che
                     number = len(report["drafts"]) + 1
                     # The model chooses contents, never a destination path.
                     (folder / "drafts" / f"draft-{number:02d}.py").write_text(code, encoding="utf-8")
-                    temporary = candidate / "money.next"
+                    temporary = candidate / (answer + ".next")
                     temporary.write_text(code, encoding="utf-8")
-                    temporary.replace(candidate / "money.py")
+                    temporary.replace(candidate / answer)
                     last = None  # A prior passing draft cannot certify this new file.
                     entry = {"number": number, "round": round_number,
                              "explanation": args["explanation"][:2000],
-                             "sha256": sha256(candidate / "money.py"), "practice": None}
+                             "sha256": sha256(candidate / answer), "practice": None}
                     report["drafts"].append(entry)
                     save()
                     log(f"Draft {number} saved. Running practice inside the sandbox...")
@@ -192,7 +199,7 @@ def run_agent(client, folder: Path, *, max_rounds: int = MAX_ROUNDS, checker=che
                         raise ValueError("submit requires only a summary string.")
                     if last is None or not last.all_passed:
                         feedback = "Submission refused: save code and get all four practice checks to pass first."
-                    elif (sha256(candidate / "money.py") != report["drafts"][-1]["sha256"]
+                    elif (sha256(candidate / answer) != report["drafts"][-1]["sha256"]
                           or any(sha256(candidate / n) != digest for n, digest in original.items())):
                         report["status"] = "files_changed_after_testing"
                         break

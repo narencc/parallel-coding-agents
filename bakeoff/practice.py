@@ -4,7 +4,7 @@ from dataclasses import asdict, dataclass
 import json
 from pathlib import Path
 
-from .sandbox import run_python
+from .sandbox import run_python, COPY_FILES
 
 EXPECTED_TESTS = {
     "tests/test_visible.py::test_rupee_sign",
@@ -54,19 +54,20 @@ class PracticeFeedback:
         return asdict(self)
 
 
-def check_practice(source: Path) -> PracticeFeedback:
-    result = run_python(PROGRAM, source=source)
+def check_practice(source: Path, *, expected=EXPECTED_TESTS, files=COPY_FILES) -> PracticeFeedback:
+    result = run_python(PROGRAM, source=source, files=files)
+    total = len(expected)
     lines = result.output.splitlines()
     records = [line[len(MARKER):] for line in lines if line.startswith(MARKER)]
     tail = "\n".join(line for line in lines if not line.startswith(MARKER))[-8000:]
-    invalid = PracticeFeedback(0, 4, False, result.status, result.returncode, tail)
+    invalid = PracticeFeedback(0, total, False, result.status, result.returncode, tail)
     if len(records) != 1 or result.status not in ("finished", "failed"):
         return invalid
     try:
         data = json.loads(records[0])
         collected = data["collected"]
         reports = data["reports"]
-        if len(collected) != 4 or set(collected) != EXPECTED_TESTS:
+        if len(collected) != total or set(collected) != expected:
             return invalid
         if data["exitcode"] != result.returncode:
             return invalid
@@ -75,10 +76,10 @@ def check_practice(source: Path) -> PracticeFeedback:
         complete = all(
             sum(r["nodeid"] == node and r["when"] == stage and r["outcome"] == "passed"
                 for r in reports) == 1
-            for node in EXPECTED_TESTS for stage in ("setup", "call", "teardown")
+            for node in expected for stage in ("setup", "call", "teardown")
         )
         success = result.status == "finished" and result.returncode == 0 and clean and complete
-        return PracticeFeedback(len(passed & EXPECTED_TESTS), 4, success,
+        return PracticeFeedback(len(passed & expected), total, success,
                                 result.status, result.returncode, tail)
     except (ValueError, KeyError, TypeError):
         return invalid
