@@ -10,6 +10,7 @@ a site published, or a person has tried the project.
 - [x] Portable example with all five answers, drafts, original tests, and review cases.
 - [x] Per-model attempts, token use, and estimated cost from the recorded run.
 - [x] Free text replay with an optional paced walkthrough.
+- [x] A 25-second Brag video with synthetic English voice-over, quiet music, a cover image, and a text transcript.
 - [x] Separate sandboxed command to reproduce the evidence without API requests.
 - [x] Contribution guide and specific issue templates.
 - [x] Draft posts and feedback questions.
@@ -45,14 +46,16 @@ invent completed feedback sessions or publish personal details without consent.
 - [ ] Resolve important feedback from the first release.
 - [x] Implement and run the second assignment with tests fixed in advance.
 - [x] Report its results even if they are not surprising: all five passed all 48 booking cases.
-- [ ] Record a short screen demonstration if a video is useful for the chosen channel.
+- [x] Create a short shareable demonstration from saved evidence, clearly labelled as a replay.
+- [ ] If a launch channel specifically needs a live desktop screen capture, record it separately; the current video is a rendered evidence replay.
 - [ ] Replace placeholders in the draft post with the real public link.
 - [ ] Check that each claimed feature is available to visitors.
 - [ ] Follow the chosen community's posting rules and publish deliberately.
 - [ ] Respond to questions and acknowledge useful contributions.
 
-A paced text replay is available now. It is not an original screen recording of
-the race. Do not claim a live demo, hosted replay, or general-purpose tool exists.
+A paced text replay and a 25-second Brag video are available now. The video is rendered
+from the archived data; it is not an original desktop recording of the race. Do not
+claim a live demo, hosted replay, or general-purpose tool exists.
 
 ## What to learn after sharing
 

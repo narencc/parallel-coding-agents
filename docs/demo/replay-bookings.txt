@@ -1,0 +1,16 @@
+RECORDED BOOKING EXPERIMENT — no model calls or candidate execution.
+
+Task: combine overlapping or touching bookings; preserve original input.
+Example: [[60,120],[90,150]] becomes [[60,150]].
+48 original cases were frozen before the first request. No post-hoc review cases were added.
+
+gpt-6-astra: 48/48; 2 requests; estimated $0.04428
+gpt-6.1-sol: 48/48; 2 requests; estimated $0.00887
+gpt-6.1-terra: 48/48; 2 requests; estimated $0.00395
+gpt-6-luna: 48/48; 2 requests; estimated $0.00043
+gpt-6-sol: 48/48; 2 requests; estimated $0.00803
+
+Race: 12.84s; peak overlapping requests: 5.
+Total estimated model cost: $0.0655729 (not a provider bill).
+Selection: All five tied on the 48 prewritten cases. Sol 6.1 was chosen for explicit, separate validation and a clear copy-sort-merge sequence. This is a readability judgment.
+Evidence: examples/bookings/README.md

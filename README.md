@@ -12,6 +12,16 @@ one. **Explore a completed experiment for free—no API key needed.**
 [Why we chose the winner](solution/README.md) ·
 [Challenge the answer](CONTRIBUTING.md)
 
+## Watch the 25-second launch video
+
+[![Five AI answers passed the first tests. Closer review changed the result.](brag-output/brag.jpg)](brag-output/brag.mp4)
+
+[Play with voice-over](brag-output/brag.mp4) · [Read the narration](docs/DEMO_TRANSCRIPT.md) · [How we made it with Brag](brag-output/README.md)
+
+A short animated explanation of the saved money-converter experiment, made with
+Brag and Hyperframes. Includes an AI-generated voice and quiet music. No new GPT
+requests were made. Read the booking experiment below for the second task.
+
 ## What happened in the money-converter experiment?
 
 The assignment was a money converter: `₹500` becomes `50000` paise. All five
